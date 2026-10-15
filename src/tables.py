@@ -83,7 +83,7 @@ def create_standings_table(url):
 
 
 # Create a shots table
-def create_shots(url):
+def create_shots_table(url):
     df_premier = pd.read_csv(url)
 
     teams = sorted(
@@ -128,7 +128,7 @@ def create_shots(url):
 
 
 # Create shots against table
-def create_shots_against(url):
+def create_shots_against_table(url):
     df_premier = pd.read_csv(url)
 
     teams = sorted(
