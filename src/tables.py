@@ -40,7 +40,7 @@ def create_results_table(url):
 
     results = pd.DataFrame(records)
 
-    return results.sort_values("Games", ascending=False)
+    return results
 
 
 # Next we create a win percentage table
@@ -79,7 +79,7 @@ def create_standings_table(url):
 
     standings = pd.DataFrame(records)
 
-    return standings.sort_values("Home Win Percentage", ascending=False)
+    return standings
 
 
 # Create a shots table
