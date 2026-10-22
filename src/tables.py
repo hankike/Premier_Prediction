@@ -303,3 +303,46 @@ def create_corners_table(url):
         1)
 
     return corners
+
+
+# Create fouls table
+def create_fouls_table(url):
+    df_premier = pd.read_csv(url)
+
+    teams = sorted(
+        set(df_premier["HomeTeam"]) |
+        set(df_premier["AwayTeam"])
+    )
+
+    records = []
+
+    for team in teams:
+        home_games = df_premier[df_premier["HomeTeam"] == team]
+
+        home_fouls = home_games["HF"].sum()
+        home_yellows = home_games["HY"].sum()
+        home_reds = home_games["HR"].sum()
+
+        away_games = df_premier[df_premier["AwayTeam"] == team]
+
+        away_fouls = away_games["AF"].sum()
+        away_yellows = away_games["AY"].sum()
+        away_reds = away_games["AR"].sum()
+
+        records.append({
+            "Team": team,
+            "Games": len(home_games) + len(away_games),
+            "Fouls": home_fouls + away_fouls,
+            "Yellows": home_yellows + away_yellows,
+            "Yellows per Game": (home_yellows + away_yellows) / (len(home_games) + len(away_games)) if (len(home_games) + len(away_games)) > 0 else np.nan,
+            "Reds": home_reds + away_reds,
+            "Reds per Game": (home_reds + away_reds) / (len(home_games) + len(away_games)) if (len(home_games) + len(away_games)) > 0 else np.nan,
+            "Booking Points": (home_yellows + away_yellows) * 10 + (home_reds + away_reds) * 25
+        })
+
+    fouls = pd.DataFrame(records)
+
+    fouls["Yellows per Game"] = fouls["Yellows per Game"].round(2)
+    fouls["Reds per Game"] = fouls["Reds per Game"].round(2)
+
+    return fouls
