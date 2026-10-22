@@ -124,7 +124,7 @@ def create_shots_table(url):
     shots["Away Shots per Goal"] = shots["Away Shots per Goal"].round(2)
     shots["Away Shots per Game"] = shots["Away Shots per Game"].round(2)
 
-    return shots.sort_values("Home Shots per Goal", ascending=True)
+    return shots
 
 
 # Create shots against table
@@ -173,4 +173,4 @@ def create_shots_against_table(url):
     shots_against["Away Opp Shots per Game"] = shots_against["Away Opp Shots per Game"].round(
         2)
 
-    return shots.sort_values("Home Opp Shots per Goal", ascending=True)
+    return shots_against
