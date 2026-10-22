@@ -174,3 +174,83 @@ def create_shots_against_table(url):
         2)
 
     return shots_against
+
+
+# Create a shots on target table
+def create_shots_target_table(url):
+    df_premier = pd.read_csv(url)
+
+    teams = sorted(
+        set(df_premier["HomeTeam"]) |
+        set(df_premier["AwayTeam"])
+    )
+
+    records = []
+
+    for team in teams:
+        home_games = df_premier[df_premier["HomeTeam"] == team]
+
+        home_sot = home_games["HST"].sum()
+        home_shots_for = home_games["HS"].sum()
+
+        away_games = df_premier[df_premier["AwayTeam"] == team]
+
+        away_sot = away_games["AST"].sum()
+        away_shots_for = away_games["AS"].sum()
+
+        records.append({
+            "Team": team,
+            "Games": len(home_games) + len(away_games),
+            "Shots on Target Home": home_sot,
+            "Percent SOT Home": home_sot / home_shots_for if home_shots_for > 0 else 0,
+            "Shots on Target Away": away_sot,
+            "Percent SOT Away": away_sot / away_shots_for if away_shots_for > 0 else 0,
+        })
+
+    sot = pd.DataFrame(records)
+
+    sot["Percent SOT Home"] = sot["Percent SOT Home"].round(2)
+    sot["Percent SOT Away"] = sot["Percent SOT Away"].round(2)
+
+    return sot
+
+
+# Create a shots on target against table
+def create_shots_target_against_table(url):
+    df_premier = pd.read_csv(url)
+
+    teams = sorted(
+        set(df_premier["HomeTeam"]) |
+        set(df_premier["AwayTeam"])
+    )
+
+    records = []
+
+    for team in teams:
+        home_games = df_premier[df_premier["HomeTeam"] == team]
+
+        home_sot_against = home_games["AST"].sum()
+        home_shots_against = home_games["AS"].sum()
+
+        away_games = df_premier[df_premier["AwayTeam"] == team]
+
+        away_sot_against = away_games["HST"].sum()
+        away_shots_against = away_games["HS"].sum()
+
+        records.append({
+            "Team": team,
+            "Games": len(home_games) + len(away_games),
+            "SOT Allowed Home": home_sot_against,
+            "Percent SOT Allowed Home": home_sot_against / home_shots_against if home_shots_against > 0 else 0,
+            "SOT Allowed Away": away_sot_against,
+            "Percent SOT Allowed Away": away_sot_against / away_shots_against if away_shots_against > 0 else 0,
+        })
+
+    sot_against = pd.DataFrame(records)
+
+    sot_against["Percent SOT Allowed Home"] = sot_against["Percent SOT Allowed Home"].round(
+        2)
+    sot_against["Percent SOT Allowed Away"] = sot_against["Percent SOT Allowed Away"].round(
+        2)
+
+    return sot_against
