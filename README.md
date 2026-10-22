@@ -6,10 +6,12 @@ All data originates from Football-data.co.uk
 
 1 Transferring all table definitions into a source code to make data visualization easier
 
-2 Creating interactive visuals for a more in depth viewing experience
-            This comes with plotly.express as px
+2 Updating the tables so there are no auto sorting
 
-3 Updating the tables so there are no auto sorting
+3 Adding simple visuals to shots on target, corners, and fouls
+
+4 Creating interactive visuals for a more in depth viewing experience
+            This comes with plotly.express as px
 
 ## Future projects
 

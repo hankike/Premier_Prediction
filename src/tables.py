@@ -254,3 +254,52 @@ def create_shots_target_against_table(url):
         2)
 
     return sot_against
+
+
+# Create corners table
+def create_corners_table(url):
+    df_premier = pd.read_csv(url)
+
+    teams = sorted(
+        set(df_premier["HomeTeam"]) |
+        set(df_premier["AwayTeam"])
+    )
+
+    records = []
+
+    for team in teams:
+        home_games = df_premier[df_premier["HomeTeam"] == team]
+
+        home_corn = home_games["HC"].sum()
+        home_corn_allowed = home_games["AC"].sum()
+
+        away_games = df_premier[df_premier["AwayTeam"] == team]
+
+        away_corn = away_games["AC"].sum()
+        away_corn_allowed = away_games["HC"].sum()
+
+        records.append({
+            "Team": team,
+            "Games": len(home_games) + len(away_games),
+            "Corners Home": home_corn,
+            "Corners Home per Game": home_corn / len(home_games) if len(home_games) > 0 else np.nan,
+            "Corners Away": away_corn,
+            "Corners Away per Game": away_corn / len(away_games) if len(away_games) > 0 else np.nan,
+            "Corners Allowed Home": home_corn_allowed,
+            "Corners Allowed Home per Game": home_corn_allowed / len(home_games) if len(home_games) > 0 else np.nan,
+            "Corners Allowed Away": away_corn_allowed,
+            "Corners Allowed Away per Game": away_corn_allowed / len(away_games) if len(away_games) > 0 else np.nan
+        })
+
+    corners = pd.DataFrame(records)
+
+    corners["Corners Home per Game"] = corners["Corners Home per Game"].round(
+        1)
+    corners["Corners Away per Game"] = corners["Corners Away per Game"].round(
+        1)
+    corners["Corners Allowed Home per Game"] = corners["Corners Allowed Home per Game"].round(
+        1)
+    corners["Corners Allowed Away per Game"] = corners["Corners Allowed Away per Game"].round(
+        1)
+
+    return corners
