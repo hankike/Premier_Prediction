@@ -4,14 +4,10 @@ All data originates from Football-data.co.uk
 
 ## Updates soon
 
-1 Transferring all table definitions into a source code to make data visualization easier
-
-2 Updating the tables so there are no auto sorting
-
-3 Adding simple visuals to shots on target, corners, and fouls
-
-4 Creating interactive visuals for a more in depth viewing experience
+1 Creating interactive visuals for a more in depth viewing experience
             This comes with plotly.express as px
+
+2 I have created a Poisson Model in `poisson_02`, I want to make this model more predictive for the future.
 
 ## Future projects
 
